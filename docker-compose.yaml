@@ -1,0 +1,12 @@
+version: "3"
+services:
+  line-webhook:
+    image: ghcr.io/eventmod/webhook:lasted
+    restart: unless-stopped
+    container_name: "line-webhook"
+    ports:
+      - "5000:5000"
+networks:
+  default:
+    external:
+      name: eventmod-network

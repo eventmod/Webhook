@@ -1,7 +1,7 @@
 /* โหลด Express มาใช้งาน */
 var app = require('express')();
 /* ใช้ port 7777 หรือจะส่งเข้ามาตอนรัน app ก็ได้ */
-var port = process.env.PORT || 7777;
+var port = process.env.PORT || 5000;
 /* Routing */
 app.get('/', function (req, res) {
     res.send('<h1>Hello Node.js</h1>');
