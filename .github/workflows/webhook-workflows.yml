@@ -1,0 +1,52 @@
+name: deploy-frontend-eventmod
+on:
+  push:
+    branches:
+      - master
+  issues:
+    types: opened
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@main
+      - name: pull images and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd Webhook/
+            git pull origin master
+            docker rm -f line-webhook
+            docker rmi ghcr.io/eventmod/webhook
+            docker build . --tag ghcr.io/eventmod/webhook:latest
+  deploy:
+    needs: build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@main
+      - name: pull images and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd Webhook/
+            git pull origin master
+            docker-compose up -d
+  notify:
+    needs: deploy
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: snow-actions/line-notify@v1.0.0
+        with:
+          access_token: ${{ secrets.LINE_ACCESS_TOKEN }}
+          message: |
+            Deploy Webhook Success.
