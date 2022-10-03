@@ -1,6 +1,7 @@
 version: "3"
 services:
   line-webhook:
+    build: .
     image: ghcr.io/eventmod/webhook:lasted
     restart: unless-stopped
     container_name: "line-webhook"
