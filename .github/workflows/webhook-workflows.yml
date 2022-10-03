@@ -1,4 +1,4 @@
-name: deploy-frontend-eventmod
+name: deploy-webhook-eventmod
 on:
   push:
     branches:
