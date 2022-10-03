@@ -2,7 +2,7 @@ version: "3"
 services:
   line-webhook:
     build: .
-    image: ghcr.io/eventmod/webhook:lasted
+    image: ghcr.io/eventmod/webhook:latest
     container_name: "line-webhook"
     ports:
       - "5000:5000"
