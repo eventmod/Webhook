@@ -1,15 +1,53 @@
-/* โหลด Express มาใช้งาน */
-var app = require('express')();
-/* ใช้ port 7777 หรือจะส่งเข้ามาตอนรัน app ก็ได้ */
-var port = process.env.PORT || 5000;
-/* Routing */
-app.get('/', function (req, res) {
-    res.send('<h1>Hello Node.js</h1>');
-});
-app.get('/index', function (req, res) {
-    res.send('<h1>This is index page</h1>');
-});
-/* สั่งให้ server ทำการรัน Web Server ด้วย port ที่เรากำหนด */
-app.listen(port, function() {
-    console.log('Starting node.js on port ' + port);
-});
+var express = require('express')
+var bodyParser = require('body-parser')
+var request = require('request')
+var app = express()
+
+app.use(bodyParser.json())
+
+app.set('port', (process.env.PORT || 5000))
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json())
+
+app.post('/api', (req, res) => {
+  var text = req.body.events[0].message.text
+  var sender = req.body.events[0].source.userId
+  var replyToken = req.body.events[0].replyToken
+  console.log(text, sender, replyToken)
+  console.log(typeof sender, typeof text)
+  // console.log(req.body.events[0])
+  if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
+    sendText(sender, text)
+  }
+  res.sendStatus(200)
+})
+
+function sendText (sender, text) {
+  let data = {
+    to: sender,
+    messages: [
+      {
+        type: 'text',
+        text: 'สวัสดีค่ะ เราเป็นผู้ช่วยปรึกษาด้านความรัก สำหรับหมามิ้น 💞'
+      }
+    ]
+  }
+  request({
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer key Api'
+    },
+    url: 'https://api.line.me/v2/bot/message/push',
+    method: 'POST',
+    body: data,
+    json: true
+  }, function (err, res, body) {
+    if (err) console.log('error')
+    if (res) console.log('success')
+    if (body) console.log(body)
+  })
+}
+
+app.listen(app.get('port'), function () {
+  console.log('run at port', app.get('port'))
+})
