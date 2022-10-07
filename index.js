@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
@@ -9,12 +11,13 @@ app.set('port', (process.env.PORT || 5000))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.post('/api', (req, res) => {
+app.post('/api', async (req, res) => {
   var text = req.body.events[0].message.text
   var sender = req.body.events[0].source.userId
   var replyToken = req.body.events[0].replyToken
 
-  var user = fetch(`https://api.line.me/v2/bot/profile/${sender}`, {method: "GET"}).json()
+  const response = await fetch(`https://api.line.me/v2/bot/profile/${sender}`)
+  var user = await response.json()
 
   console.log(text, sender, replyToken)
   console.log(typeof sender, typeof text)
