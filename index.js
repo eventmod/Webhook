@@ -18,6 +18,7 @@ app.post('/api', (req, res) => {
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     sendText(sender, text)
+    console.log(req)
   }
   res.sendStatus(200)
 })
@@ -28,7 +29,7 @@ function sendText (sender, text) {
     messages: [
       {
         type: 'text',
-        text: 'Welcome to EventMod' + sender
+        text: 'ยินดีต้อนรับคุณ ' + sender + ' เข้าสู่ EventMod'
       }
     ]
   }
