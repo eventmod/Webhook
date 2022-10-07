@@ -28,7 +28,7 @@ function sendText (sender, text) {
     messages: [
       {
         type: 'text',
-        text: 'Welcome to EventMod'
+        text: 'Welcome to EventMod' + sender
       }
     ]
   }
