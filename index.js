@@ -18,7 +18,7 @@ app.post('/api', (req, res) => {
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     sendText(sender, text)
-    console.log(req)
+    console.log(req.body.events[0])
   }
   res.sendStatus(200)
 })
