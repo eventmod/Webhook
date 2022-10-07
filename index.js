@@ -21,19 +21,19 @@ app.post('/api', async (req, res) => {
   console.log(typeof sender, typeof text)
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
-    sendText(sender, text)
+    sendText(sender, text, user.displayName)
     console.log(user.displayName)
   }
   res.sendStatus(200)
 })
 
-function sendText (sender, text) {
+function sendText (sender, text, displayName) {
   let data = {
     to: sender,
     messages: [
       {
         type: 'text',
-        text: 'ยินดีต้อนรับคุณ ' + sender + ' เข้าสู่ EventMod'
+        text: 'ยินดีต้อนรับคุณ ' + displayName + ' เข้าสู่ EventMod'
       }
     ]
   }
