@@ -22,7 +22,7 @@ app.post('/api', async (req, res) => {
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     sendText(sender, text, user.displayName)
-    console.log(user.displayName)
+    // console.log(user.displayName)
   }
   res.sendStatus(200)
 })
