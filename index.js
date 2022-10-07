@@ -9,16 +9,20 @@ app.set('port', (process.env.PORT || 5000))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.post('/api', (req, res) => {
+app.post('/api', async (req, res) => {
   var text = req.body.events[0].message.text
   var sender = req.body.events[0].source.userId
   var replyToken = req.body.events[0].replyToken
+
+  const r = await fetch(`https://api.line.me/v2/bot/profile/${sender}`, {method: "GET"})
+  var user = await r.json()
+
   console.log(text, sender, replyToken)
   console.log(typeof sender, typeof text)
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     sendText(sender, text)
-    console.log(req.body.events[0])
+    console.log(user.displayName)
   }
   res.sendStatus(200)
 })
