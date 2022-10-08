@@ -20,7 +20,7 @@ app.post('/api', async (req, res) => {
   var replyToken = req.body.events[0].replyToken
   
   var user = ''
-  fetch('https://api.line.me/v2/bot/profile/'+sender)
+  fetch(`https://api.line.me/v2/bot/profile/${sender}`)
   .then((response) => response.json())
   .then((data) => user = data);
 
