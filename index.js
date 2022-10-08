@@ -26,7 +26,7 @@ app.post('/api', async (req, res) => {
   console.log(typeof sender, typeof text)
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
-    sendText(sender, text, await user.displayName)
+    await sendText(sender, text, user.displayName)
     // console.log(user.displayName)
   }
   res.sendStatus(200)
@@ -38,7 +38,7 @@ async function sendText (sender, text, displayName) {
     messages: [
       {
         type: 'text',
-        text: await displayName
+        text: displayName
       }
     ]
   }
