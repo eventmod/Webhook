@@ -1,7 +1,10 @@
 import fetch from 'node-fetch';
-var express = require('express')
-var bodyParser = require('body-parser')
-var request = require('request')
+import express from 'express';
+import bodyParser from 'body-parser';
+import request from 'request';
+// var express = require('express')
+// var bodyParser = require('body-parser')
+// var request = require('request')
 // var fetch = require('node-fetch')
 var app = express()
 
