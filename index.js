@@ -1,7 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
-var fetch = require('node-fetch')
+// var fetch = require('node-fetch')
 var app = express()
 
 app.use(bodyParser.json())
@@ -14,9 +14,14 @@ app.post('/api', async (req, res) => {
   var text = req.body.events[0].message.text
   var sender = req.body.events[0].source.userId
   var replyToken = req.body.events[0].replyToken
+  
+  var user = ''
+  fetch('https://api.line.me/v2/bot/profile/'+sender)
+  .then((response) => response.json())
+  .then((data) => user = data);
 
-  const response = await fetch(`https://api.line.me/v2/bot/profile/${sender}`)
-  var user = await response.json()
+  // const response = await fetch('https://api.line.me/v2/bot/profile/'+sender)
+  
 
   console.log(text, sender, replyToken)
   console.log(typeof sender, typeof text)
