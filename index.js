@@ -43,7 +43,7 @@ async function sendText (sender, text, displayName) {
     messages: [
       {
         type: 'text',
-        text: displayName
+        text: 'ยินดีต้อนรับคุณ ' + displayName + ' เข้าสู่ EventMod'
       }
     ]
   }
