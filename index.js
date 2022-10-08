@@ -19,13 +19,8 @@ app.post('/api', async (req, res) => {
   var sender = req.body.events[0].source.userId
   var replyToken = req.body.events[0].replyToken
   
-  var user = ''
-  await fetch(`https://api.line.me/v2/bot/profile/${sender}`)
-  .then((response) => response.json())
-  .then((data) => user = data);
-
-  // const response = await fetch('https://api.line.me/v2/bot/profile/'+sender)
-  
+  const response = await fetch(`https://api.line.me/v2/bot/profile/${sender}`, {method: "GET"})
+  var user = response.json()
 
   console.log(text, sender, replyToken)
   console.log(typeof sender, typeof text)
