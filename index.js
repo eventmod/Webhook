@@ -20,13 +20,13 @@ app.post('/api', async (req, res) => {
   var replyToken = req.body.events[0].replyToken
   
   const response = await fetch(`https://api.line.me/v2/bot/profile/${sender}`, {method: "GET"})
-  var user = response.json()
+  var user = await response.json()
 
   console.log(text, sender, replyToken)
   console.log(typeof sender, typeof text)
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
-    sendText(sender, text, user)
+    sendText(sender, text, user.displayName)
     // console.log(user.displayName)
   }
   res.sendStatus(200)
