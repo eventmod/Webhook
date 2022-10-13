@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import express from 'express';
 import bodyParser from 'body-parser';
-import messageFunction from './message-function.js';
+import { sendText } from './message-function.js';
 var app = express()
 
 app.use(bodyParser.json())
@@ -10,7 +10,7 @@ app.set('port', (process.env.PORT || 5000))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.post('/api',exports.webhook = async (req, res) => {
+app.post('/api', async (req, res) => {
   var text = req.body.events[0].message.text
   var sender = req.body.events[0].source.userId
   var replyToken = req.body.events[0].replyToken
@@ -28,7 +28,7 @@ app.post('/api',exports.webhook = async (req, res) => {
   console.log(typeof sender, typeof text)
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
-    await messageFunction.sendText(sender, user.displayName)
+    await sendText(sender, user.displayName)
     console.log(user.displayName)
   }
   res.sendStatus(200)
