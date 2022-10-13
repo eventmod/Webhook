@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import express from 'express';
 import bodyParser from 'body-parser';
-import { sendText } from './message-function.js';
+import {sendText, test} from './message-function.js';
 var app = express()
 
 app.use(bodyParser.json())
@@ -29,6 +29,7 @@ app.post('/api', async (req, res) => {
   // console.log(req.body.events[0])
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     await sendText(sender, user.displayName)
+    test()
     console.log(user.displayName)
   }
   res.sendStatus(200)
