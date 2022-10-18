@@ -83,7 +83,14 @@ async function sendEvent (sender, event) {
         type: "uri",
         label: event[index].eventTitle,
         uri: `https://www.eventmod.net/each/${event[index].eventID}`
-      }
+      },
+      actions: [
+        {
+          type: "postback",
+          label: "Join",
+          data: ""
+        }
+      ]
     }
     column.push(x)
 
