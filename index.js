@@ -79,11 +79,11 @@ async function sendEvent (sender, event) {
       imageBackgroundColor: "#FFFFFF",
       title: event[index].eventTitle,
       text: event[index].eventShortDescription,
-      // defaultAction: {
-      //   type: "uri",
-      //   label: event[index].eventTitle,
-      //   uri: `https://www.eventmod.net/each/${event[index].eventID}`
-      // }
+      defaultAction: {
+        type: "uri",
+        label: event[index].eventTitle,
+        uri: `https://www.eventmod.net/each/${event[index].eventID}`
+      }
     }
     column.push(x)
 
