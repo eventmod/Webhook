@@ -1,8 +1,14 @@
 import fetch from 'node-fetch';
 import express from 'express';
 import bodyParser from 'body-parser';
-import {sendText, test} from './message-function.js';
+import request from 'request';
 var app = express()
+
+const LINE_MESSAGING_API = "https://api.line.me/v2/bot/message";
+const LINE_HEADER = {
+  "Content-Type": "application/json",
+  "Authorization": "Bearer VXLwVklleTDFgPnUoLZbiYaiCOZJSxVKN5fWM1ggbqOY1knDJ8PV+N7e5mUK5Cq/hGW2mk2mcVGl+rZ33++9XMqzt6e+BTX7EhV+T/Pj6zzBV08QOi6yO4ErNcw0OU2ijJjEXEQ5M3g0ctwyb1hPmAdB04t89/1O/w1cDnyilFU="
+};
 
 app.use(bodyParser.json())
 
@@ -15,25 +21,106 @@ app.post('/api', async (req, res) => {
   var sender = req.body.events[0].source.userId
   var replyToken = req.body.events[0].replyToken
   
-  const response = await fetch(`https://api.line.me/v2/bot/profile/${sender}`, {
+  const responseUser = await fetch(`https://api.line.me/v2/bot/profile/${sender}`, {
     method: "GET", 
-    headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer VXLwVklleTDFgPnUoLZbiYaiCOZJSxVKN5fWM1ggbqOY1knDJ8PV+N7e5mUK5Cq/hGW2mk2mcVGl+rZ33++9XMqzt6e+BTX7EhV+T/Pj6zzBV08QOi6yO4ErNcw0OU2ijJjEXEQ5M3g0ctwyb1hPmAdB04t89/1O/w1cDnyilFU='
-    }
+    headers: LINE_HEADER
   })
-  var user = await response.json()
+  var user = await responseUser.json()
 
-  console.log(text, sender, replyToken)
-  console.log(typeof sender, typeof text)
-  // console.log(req.body.events[0])
+  const responseEvent = await fetch(`https://www.eventmod.net/api/events`, {
+    method: "GET", 
+    headers: {"Content-Type": "application/json"}
+  })
+  var event = await responseEvent.json()
+
+  // console.log(text, sender, replyToken)
+  // console.log(typeof sender, typeof text)
+
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     await sendText(sender, user.displayName)
-    test()
-    console.log(user.displayName)
+    // console.log(user.displayName)
+  }
+
+  if (text === 'Event List') {
+    await sendEvent(sender, event)
   }
   res.sendStatus(200)
 })
+
+async function sendText (sender, displayName) {
+  let data = {
+    to: sender,
+    messages: [
+      {
+        type: 'text',
+        text: 'ยินดีต้อนรับคุณ ' + displayName + ' เข้าสู่ EventMod'
+      }
+    ]
+  }
+  request({
+    headers: LINE_HEADER,
+    url: `${LINE_MESSAGING_API}/push`,
+    method: 'POST',
+    body: data,
+    json: true
+  }, function (err, res, body) {
+    if (err) console.log('error')
+    if (res) console.log('success')
+    if (body) console.log(body)
+  })
+}
+
+async function sendEvent (sender, event) {
+
+  let column = []
+  for (let index = 0; index < event.length; index++) {
+    let x = {
+      thumbnailImageUrl: `https://www.eventmod.net/api/Files/${event[index].eventCover}`,
+      imageBackgroundColor: "#FFFFFF",
+      title: event[index].eventTitle,
+      text: "description",
+      defaultAction: {
+        type: "uri",
+        label: event[index].eventTitle,
+        uri: `https://www.eventmod.net/each/${event[index].eventID}`
+      },
+      actions: [
+        {
+          type: "postback",
+          label: "Buy",
+          data: "action=buy&itemid=111"
+        }
+      ]
+    }
+    column.push(x)
+
+    await request({
+      method: "POST",
+      uri: `${LINE_MESSAGING_API}/push`,
+      headers: LINE_HEADER,
+      body: JSON.stringify({
+        to: sender,
+        messages: [
+          {
+            type: "template",
+            altText: "This is a carousel template",
+            template: {
+              type: "carousel",
+              imageAspectRatio: "rectangle",
+              imageSize: "cover",
+              columns: column
+            }
+          }
+        ]
+      })
+    }).then(() => {
+        return res.status(200).send("Done");
+    }).catch(error => {
+        return Promise.reject(error);
+    });
+
+  }
+}
 
 app.listen(app.get('port'), function () {
   console.log('run at port', app.get('port'))
