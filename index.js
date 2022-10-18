@@ -41,7 +41,7 @@ app.post('/api', async (req, res) => {
     // console.log(user.displayName)
   }
 
-  if (text === 'Event List') {
+  if (text === 'List') {
     await sendEvent(sender, event)
   }
   res.sendStatus(200)
