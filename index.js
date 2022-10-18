@@ -66,7 +66,7 @@ async function sendText (sender, displayName) {
   }, function (err, res, body) {
     if (err) console.log('error')
     if (res) console.log('success')
-    if (body) console.log(body)
+    if (body) console.log('3: '+ body)
   })
 }
 
