@@ -78,23 +78,16 @@ async function sendEvent (sender, event) {
       thumbnailImageUrl: `https://www.eventmod.net/api/Files/${event[index].eventCover}`,
       imageBackgroundColor: "#FFFFFF",
       title: event[index].eventTitle,
-      text: "description",
-      defaultAction: {
-        type: "uri",
-        label: event[index].eventTitle,
-        uri: `https://www.eventmod.net/each/${event[index].eventID}`
-      },
-      actions: [
-        {
-          type: "postback",
-          label: "Buy",
-          data: "action=buy&itemid=111"
-        }
-      ]
+      text: event[index].eventShortDescription,
+      // defaultAction: {
+      //   type: "uri",
+      //   label: event[index].eventTitle,
+      //   uri: `https://www.eventmod.net/each/${event[index].eventID}`
+      // }
     }
     column.push(x)
 
-    await request({
+    request({
       method: "POST",
       uri: `${LINE_MESSAGING_API}/push`,
       headers: LINE_HEADER,
@@ -103,7 +96,7 @@ async function sendEvent (sender, event) {
         messages: [
           {
             type: "template",
-            altText: "This is a carousel template",
+            altText: "Show Event",
             template: {
               type: "carousel",
               imageAspectRatio: "rectangle",
