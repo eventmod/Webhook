@@ -88,7 +88,7 @@ async function sendEvent (sender, event) {
         {
           type: "postback",
           label: "Join",
-          data: ""
+          data: "action=buy&itemid=111"
         }
       ]
     }
