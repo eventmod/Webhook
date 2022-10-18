@@ -113,12 +113,11 @@ async function sendEvent (sender, event) {
           }
         ]
       })
-    }).then(() => {
-        return res.status(200).send("Done");
-    }).catch(error => {
-        return Promise.reject(error);
-    });
-
+    }, function (err, res, body) {
+      if (err) console.log('error')
+      if (res) console.log('Done')
+      if (body) console.log(body)
+    })
   }
 }
 
