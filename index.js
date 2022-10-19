@@ -86,9 +86,9 @@ async function sendEvent (sender, event) {
       },
       actions: [
         {
-          type: "postback",
+          type: "message",
           label: "Join",
-          uri: `https://www.eventmod.net/each/${event[index].eventID}`
+          text: event[index].eventID
         }
       ]
     }
