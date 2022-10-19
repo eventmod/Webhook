@@ -42,8 +42,8 @@ app.post('/api', async (req, res) => {
   }
 
   if (text === 'List') {
-    // await sendEvent(sender, event)
-    await newSendEvent(sender, event)
+    await sendEvent(sender, event)
+    // await newSendEvent(sender, event)
   }
   res.sendStatus(200)
 })
