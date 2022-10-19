@@ -177,7 +177,7 @@ async function newSendEvent (sender, event) {
             action: {
               type: "text",
               label: "Join",
-              uri: "Already Join " + event[index].eventTitle
+              text: "Already Join " + event[index].eventTitle
             }
           }
         ]
