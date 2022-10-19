@@ -152,12 +152,13 @@ async function newSendEvent (sender, event) {
       },
       body: {
         type: "box",
-        layout: "horizontal",
+        layout: "vertical",
         contents: [
           {
             type: "text",
             text: event[index].eventTitle,
-            wrap: true
+            wrap: true,
+            weight: bold
           },
           {type: "separator"},
           {
