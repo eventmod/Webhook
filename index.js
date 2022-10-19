@@ -185,7 +185,7 @@ async function newSendEvent (sender, event) {
             altText: "Show Event",
             contents: {
               type: "carousel",
-              columns: column
+              contents: column
             }
         }
         ]
