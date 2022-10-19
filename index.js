@@ -158,7 +158,7 @@ async function newSendEvent (sender, event) {
             type: "text",
             text: event[index].eventTitle,
             wrap: true,
-            weight: bold
+            weight: "bold"
           },
           {type: "separator"},
           {
