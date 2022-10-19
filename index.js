@@ -149,12 +149,9 @@ async function newSendEvent (sender, event) {
         layout: "horizontal",
         contents: [
           {
-            type: "image",
-            uri: `https://www.eventmod.net/api/Files/${event[index].eventCover}`,
-          },
-          {
             type: "text",
             text: event[index].eventTitle,
+            wrap: true
           }
         ]
       },
@@ -167,8 +164,8 @@ async function newSendEvent (sender, event) {
             style: "primary",
             action: {
               type: "text",
-              label: "JOIN",
-              text: "Already Join" + event[index].eventTitle
+              label: "Join",
+              uri: "Already Join " + event[index].eventTitle
             }
           }
         ]
@@ -184,9 +181,7 @@ async function newSendEvent (sender, event) {
         to: sender,
         messages: [
           {
-            type: "flex",
-            altText: "Show List Event",
-            // type: "carousel",
+            type: "carousel",
             contents: column
           }
         ]
