@@ -102,8 +102,8 @@ async function sendEvent (sender, event) {
         to: sender,
         messages: [
           {
-            // type: "template",
-            // altText: "Show Event",
+            type: "template",
+            altText: "Show Event",
             template: {
               type: "carousel",
               imageAspectRatio: "rectangle",
