@@ -177,15 +177,15 @@ async function newSendEvent (sender, event) {
       method: "POST",
       uri: `${LINE_MESSAGING_API}/push`,
       headers: LINE_HEADER,
-      body: JSON.stringify({
+      body: {
         to: sender,
-        messages: 
+        messages: [
           {
             type: "carousel",
             contents: column
           }
-        
-      })
+        ]
+      }
     }, function (err, res, body) {
       if (err) console.log('error')
       if (res) console.log('Done')
