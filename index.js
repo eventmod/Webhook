@@ -104,12 +104,12 @@ async function sendEvent (sender, event) {
           {
             // type: "template",
             // altText: "Show Event",
-            // template: {
+            template: {
               type: "carousel",
               imageAspectRatio: "rectangle",
               imageSize: "cover",
               columns: column
-            // }
+            }
           }
         ]
       })
