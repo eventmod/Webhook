@@ -144,6 +144,13 @@ async function newSendEvent (sender, event) {
       //   }
       // ]
       type: "bubble",
+      style: {},
+      hero: {
+        type: "image",
+        url: `https://www.eventmod.net/api/Files/${event[index].eventCover}`,
+        size: "full",
+        aspectRatio: "2:1"
+      },
       body: {
         type: "box",
         layout: "horizontal",
@@ -151,6 +158,12 @@ async function newSendEvent (sender, event) {
           {
             type: "text",
             text: event[index].eventTitle,
+            wrap: true
+          },
+          {type: "separator"},
+          {
+            type: "text",
+            text: event[index].eventShortDescription,
             wrap: true
           }
         ]
