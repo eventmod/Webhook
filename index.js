@@ -144,7 +144,6 @@ async function newSendEvent (sender, event) {
       //   }
       // ]
       type: "bubble",
-      style: {},
       hero: {
         type: "image",
         url: `https://www.eventmod.net/api/Files/${event[index].eventCover}`,
