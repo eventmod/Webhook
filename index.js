@@ -42,7 +42,8 @@ app.post('/api', async (req, res) => {
   }
 
   if (text === 'List') {
-    await sendEvent(sender, event)
+    // await sendEvent(sender, event)
+    await newSendEvent(sender, event)
   }
   res.sendStatus(200)
 })
@@ -119,6 +120,81 @@ async function sendEvent (sender, event) {
       if (body) console.log('3: '+ body)
     })
   
+}
+
+async function newSendEvent (sender, event) {
+
+  let column = []
+  for (let index = 0; index < event.length; index++) {
+    let x = {
+      // thumbnailImageUrl: `https://www.eventmod.net/api/Files/${event[index].eventCover}`,
+      // imageBackgroundColor: "#FFFFFF",
+      // title: event[index].eventTitle,
+      // text: event[index].eventShortDescription,
+      // defaultAction: {
+      //   type: "uri",
+      //   label: event[index].eventTitle,
+      //   uri: `https://www.eventmod.net/each/${event[index].eventID}`
+      // },
+      // actions: [
+      //   {
+      //     type: "message",
+      //     label: "Join",
+      //     text: event[index].eventID
+      //   }
+      // ]
+      type: "bubble",
+      body: {
+        type: "box",
+        layout: "horizontal",
+        contents: [
+          {
+            type: "text",
+            text: event[index].eventTitle,
+            wrap: true
+          }
+        ]
+      },
+      footer: {
+        type: "box",
+        layout: "horizontal",
+        contents: [
+          {
+            type: "button",
+            style: "primary",
+            action: {
+              type: "text",
+              label: "Join",
+              uri: "Already Join " + event[index].eventTitle
+            }
+          }
+        ]
+      }
+    }
+    column.push(x)
+  }
+    request({
+      method: "POST",
+      uri: `${LINE_MESSAGING_API}/push`,
+      headers: LINE_HEADER,
+      body: JSON.stringify({
+        to: sender,
+        messages: [
+          {
+            type: "template",
+            altText: "Show Event",
+            contents: {
+              type: "carousel",
+              columns: column
+            }
+        }
+        ]
+      })
+    }, function (err, res, body) {
+      if (err) console.log('error')
+      if (res) console.log('Done')
+      if (body) console.log('3: '+ body)
+    })
 }
 
 app.listen(app.get('port'), function () {
