@@ -42,7 +42,8 @@ app.post('/api', async (req, res) => {
   }
 
   if (text === 'List') {
-    await sendEvent(sender, event)
+    // await sendEvent(sender, event)
+    await newSendEvent(sender, event)
   }
   res.sendStatus(200)
 })
@@ -93,7 +94,7 @@ async function sendEvent (sender, event) {
       ]
     }
     column.push(x)
-
+  }
     request({
       method: "POST",
       uri: `${LINE_MESSAGING_API}/push`,
@@ -118,7 +119,7 @@ async function sendEvent (sender, event) {
       if (res) console.log('Done')
       if (body) console.log('3: '+ body)
     })
-  }
+  
 }
 
 app.listen(app.get('port'), function () {
