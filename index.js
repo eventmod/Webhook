@@ -175,7 +175,7 @@ async function newSendEvent (sender, event) {
             type: "button",
             style: "primary",
             action: {
-              type: "text",
+              type: "message",
               label: "Join Event",
               text: "Already Join " + event[index].eventTitle
             }
