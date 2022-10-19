@@ -88,7 +88,7 @@ async function sendEvent (sender, event) {
         {
           type: "postback",
           label: "Join",
-          data: "action=buy&itemid=111"
+          uri: `https://www.eventmod.net/each/${event[index].eventID}`
         }
       ]
     }
@@ -102,14 +102,14 @@ async function sendEvent (sender, event) {
         to: sender,
         messages: [
           {
-            type: "template",
-            altText: "Show Event",
-            template: {
+            // type: "template",
+            // altText: "Show Event",
+            // template: {
               type: "carousel",
               imageAspectRatio: "rectangle",
               imageSize: "cover",
               columns: column
-            }
+            // }
           }
         ]
       })
