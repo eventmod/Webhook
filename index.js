@@ -184,7 +184,8 @@ async function newSendEvent (sender, event) {
         to: sender,
         messages: [
           {
-            type: "carousel",
+            type: "flex",
+            // type: "carousel",
             contents: column
           }
         ]
