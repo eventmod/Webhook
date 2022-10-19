@@ -179,12 +179,12 @@ async function newSendEvent (sender, event) {
       headers: LINE_HEADER,
       body: JSON.stringify({
         to: sender,
-        messages: [
+        messages: 
           {
             type: "carousel",
             contents: column
           }
-        ]
+        
       })
     }, function (err, res, body) {
       if (err) console.log('error')
