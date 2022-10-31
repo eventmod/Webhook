@@ -49,7 +49,7 @@ app.post('/api', async (req, res) => {
 
   if (text === 'List') {
     await newSendEvent(sender, event)
-    console.log(event)
+    // console.log(event)
   }
   res.sendStatus(200)
 })
@@ -86,11 +86,11 @@ async function newSendEvent (sender, event) {
       defaultAction: {
           type: "uri",
           label: event[index].eventTitle,
-          uri: `https://www.eventmod.net/each/${event[index].eventID}`
+          uri: `https://www.eventmod.net/each/${event[index].event_id}`
         },
       hero: {
         type: "image",
-        url: `https://www.eventmod.net/api/Files/${event[index].eventCover}`,
+        url: `https://www.eventmod.net/api/Files/${event[index].event_cover}`,
         size: "full",
         aspectRatio: "2:1"
       },
@@ -100,7 +100,7 @@ async function newSendEvent (sender, event) {
         contents: [
           {
             type: "text",
-            text: event[index].eventTitle,
+            text: event[index].event_title,
             wrap: true,
             weight: "bold"
           },
@@ -109,7 +109,7 @@ async function newSendEvent (sender, event) {
           },
           {
             type: "text",
-            text: event[index].eventShortDescription,
+            text: event[index].event_shortdescription,
             wrap: true
           }
         ]
@@ -124,7 +124,7 @@ async function newSendEvent (sender, event) {
             action: {
               type: "message",
               label: "Join Event",
-              text: "Already Join " + event[index].eventTitle
+              text: "Already Join " + event[index].event_title
             }
           }
         ]
