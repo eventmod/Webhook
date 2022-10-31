@@ -83,11 +83,11 @@ async function newSendEvent (sender, events) {
   for (let index = 0; index < events.length; index++) {
     let x = {
       type: "bubble",
-      defaultAction: {
-          type: "uri",
-          label: events[index].event_title,
-          uri: `https://www.eventmod.net/each/${events[index].event_id}`
-        },
+      // defaultAction: {
+      //     type: "uri",
+      //     label: events[index].event_title,
+      //     uri: `https://www.eventmod.net/each/${events[index].event_id}`
+      //   },
       hero: {
         type: "image",
         url: `https://www.eventmod.net/api/Files/${events[index].event_cover}`,
