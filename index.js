@@ -77,20 +77,20 @@ async function sendText (sender, displayName) {
   })
 }
 
-async function newSendEvent (sender, event) {
+async function newSendEvent (sender, events) {
 
   let column = []
-  for (let index = 0; index < event.length; index++) {
+  for (let index = 0; index < events.length; index++) {
     let x = {
       type: "bubble",
       defaultAction: {
           type: "uri",
-          label: event[index].event_title,
-          uri: `https://www.eventmod.net/each/${event[index].event_id}`
+          label: events[index].event_title,
+          uri: `https://www.eventmod.net/each/${events[index].event_id}`
         },
       hero: {
         type: "image",
-        url: `https://www.eventmod.net/api/Files/${event[index].event_cover}`,
+        url: `https://www.eventmod.net/api/Files/${events[index].event_cover}`,
         size: "full",
         aspectRatio: "2:1"
       },
@@ -100,7 +100,7 @@ async function newSendEvent (sender, event) {
         contents: [
           {
             type: "text",
-            text: event[index].event_title,
+            text: events[index].event_title,
             wrap: true,
             weight: "bold"
           },
@@ -109,7 +109,7 @@ async function newSendEvent (sender, event) {
           },
           {
             type: "text",
-            text: event[index].event_shortdescription,
+            text: events[index].event_shortdescription,
             wrap: true
           }
         ]
@@ -124,7 +124,7 @@ async function newSendEvent (sender, event) {
             action: {
               type: "message",
               label: "Join Event",
-              text: "Already Join " + event[index].event_title
+              text: "Already Join " + events[index].event_title
             }
           }
         ]
