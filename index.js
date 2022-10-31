@@ -3,12 +3,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import request from 'request';
 import { connection } from './connection-mysql.js';
-import { Verifier } from 'academic-email-verifier';
+// import { Verifier } from 'academic-email-verifier';
 
 var app = express()
 
-let isAcademic = await Verifier.isAcademic('pongpichet.sk@mail.kmutt.ac.th');
-console.log(isAcademic)
+// let isAcademic = await Verifier.isAcademic('pongpichet.sk@mail.kmutt.ac.th');
+// console.log(isAcademic)
 
 const LINE_MESSAGING_API = "https://api.line.me/v2/bot/message";
 const LINE_HEADER = {
@@ -22,6 +22,16 @@ app.use(bodyParser.json())
 
 connection.connect();
 
+var event = [];
+connection.query('SELECT * FROM events', async function(err, result) {
+  if(err) throw err
+  event = result
+})
+
+app.get('/test', async (req, res) => {
+  res.send(event)
+})
+
 app.post('/api', async (req, res) => {
   var text = req.body.events[0].message.text
   var sender = req.body.events[0].source.userId
@@ -32,14 +42,6 @@ app.post('/api', async (req, res) => {
     headers: LINE_HEADER
   })
   var user = await responseUser.json()
-
-  var event;
-  connection.query('SELECT * FROM events', (err, results, fields) => {
-    if(err) throw err
-    event = results
-  })
-
-  
 
   if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
     await sendText(sender, user.displayName)
