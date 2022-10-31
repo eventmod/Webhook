@@ -85,7 +85,7 @@ async function newSendEvent (sender, event) {
       type: "bubble",
       defaultAction: {
           type: "uri",
-          label: event[index].eventTitle,
+          label: event[index].event_title,
           uri: `https://www.eventmod.net/each/${event[index].event_id}`
         },
       hero: {
