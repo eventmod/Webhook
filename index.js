@@ -1,20 +1,10 @@
 import fetch from 'node-fetch';
 import express from 'express';
 import bodyParser from 'body-parser';
-import request from 'request';
-import { connection } from './connection-mysql.js';
-// import { Verifier } from 'academic-email-verifier';
+import { connection } from './connection/connection-mysql.js';
+import * as responseFunction from './functions/response-function.js';
 
 var app = express()
-
-// let isAcademic = await Verifier.isAcademic('pongpichet.sk@mail.kmutt.ac.th');
-// console.log(isAcademic)
-
-const LINE_MESSAGING_API = "https://api.line.me/v2/bot/message";
-const LINE_HEADER = {
-  "Content-Type": "application/json",
-  "Authorization": "Bearer VXLwVklleTDFgPnUoLZbiYaiCOZJSxVKN5fWM1ggbqOY1knDJ8PV+N7e5mUK5Cq/hGW2mk2mcVGl+rZ33++9XMqzt6e+BTX7EhV+T/Pj6zzBV08QOi6yO4ErNcw0OU2ijJjEXEQ5M3g0ctwyb1hPmAdB04t89/1O/w1cDnyilFU="
-};
 
 app.set('port', (process.env.PORT || 5000))
 app.use(bodyParser.urlencoded({extended: true}))
@@ -28,133 +18,46 @@ connection.query('SELECT * FROM events', async function(err, result) {
   event = result
 })
 
-app.get('/test', async (req, res) => {
-  res.send(event)
-})
-
 app.post('/api', async (req, res) => {
-  var text = req.body.events[0].message.text
+  var requestText = req.body.events[0].message.text
   var sender = req.body.events[0].source.userId
-  // var replyToken = req.body.events[0].replyToken
   
   const responseUser = await fetch(`https://api.line.me/v2/bot/profile/${sender}`, {
     method: "GET", 
-    headers: LINE_HEADER
+    headers: responseFunction.LINE_HEADER
   })
   var user = await responseUser.json()
 
-  if (text === 'สวัสดี' || text === 'Hello' || text === 'hello') {
-    await sendText(sender, user.displayName)
+  if (requestText === 'List') {
+    await responseFunction.sendEvent(sender, event)
   }
 
-  if (text === 'List') {
-    await newSendEvent(sender, event)
-    // console.log(event)
-  }
+  // if (requestText === 'Verify KMUTT') {
+  //   const text = "Please Send studentID 11 digits & KMUTT Mail \n\n Like this form ... \n\n 62130500000,example@kmutt.ac.th"
+  //   await responseFunction.sendText(sender, text)
+  // }
+
+  // if (requestText.split(",")[0].length === 11 && (requestText.split(",")[1].split("@")[1] === "kmutt.ac.th" || requestText.split(",")[1].split("@")[1] === "mail.kmutt.ac.th")) {
+  //   const studentID = requestText.split(",")[0]
+  //   const kmuttMail = requestText.split(",")[1]
+  //   console.log("studentID: " + studentID)
+  //   console.log("KMUTT Mail: " + kmuttMail)
+  // }
+
+  // const patternEmail = requestText.split(" ")
+  // if (patternEmail[0] === 'Email:') {
+  //   const email = patternEmail[1]
+  //   const componentEmail = email.split("@")
+  //   if(componentEmail[1] === 'mail.kmutt.ac.th' || componentEmail[1] === 'kmutt.ac.th'){
+  //     connection.query(`INSERT INTO lineaccounts (lineacc_userid, lineacc_studentid, lineacc_kmuttmail) VALUES ("${user.userId}", 'xxxxxxxxxxx', "${email}")`, (err, result) => {
+  //       if(err) throw err
+  //       console.log("Success")
+  //       console.log(result)
+  //     })
+  //   }
+  // }
   res.sendStatus(200)
 })
-
-async function sendText (sender, displayName) {
-  let data = {
-    to: sender,
-    messages: [
-      {
-        type: 'text',
-        text: 'ยินดีต้อนรับคุณ ' + displayName + ' เข้าสู่ EventMod'
-      }
-    ]
-  }
-  request({
-    headers: LINE_HEADER,
-    url: `${LINE_MESSAGING_API}/push`,
-    method: 'POST',
-    body: data,
-    json: true
-  }, function (err, res, body) {
-    if (err) console.log('error')
-    if (res) console.log('success')
-    if (body) console.log(body)
-  })
-}
-
-async function newSendEvent (sender, events) {
-
-  let column = []
-  for (let index = 0; index < events.length; index++) {
-    let x = {
-      type: "bubble",
-      // defaultAction: {
-      //     type: "uri",
-      //     label: events[index].event_title,
-      //     uri: `https://www.eventmod.net/each/${events[index].event_id}`
-      //   },
-      hero: {
-        type: "image",
-        url: `https://www.eventmod.net/api/Files/${events[index].event_cover}`,
-        size: "full",
-        aspectRatio: "2:1"
-      },
-      body: {
-        type: "box",
-        layout: "vertical",
-        contents: [
-          {
-            type: "text",
-            text: events[index].event_title,
-            wrap: true,
-            weight: "bold"
-          },
-          {
-            type: "separator"
-          },
-          {
-            type: "text",
-            text: events[index].event_shortdescription,
-            wrap: true
-          }
-        ]
-      },
-      footer: {
-        type: "box",
-        layout: "horizontal",
-        contents: [
-          {
-            type: "button",
-            style: "primary",
-            action: {
-              type: "message",
-              label: "Join Event",
-              text: "Already Join " + events[index].event_title
-            }
-          }
-        ]
-      }
-    }
-    column.push(x)
-  }
-    request({
-      method: "POST",
-      uri: `${LINE_MESSAGING_API}/push`,
-      headers: LINE_HEADER,
-      body: JSON.stringify({
-        to: sender,
-        messages: [
-          {
-            type: "flex",
-            altText: "Show Event",
-            contents: {
-              type: "carousel",
-              contents: column
-            }
-        }
-        ]
-      })
-    }, function (err, res, body) {
-      if (err) console.log('error')
-      if (res) console.log('Done')
-      if (body) console.log('3: '+ body)
-    })
-}
 
 app.listen(app.get('port'), function () {
   console.log('run at port', app.get('port'))
