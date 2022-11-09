@@ -67,6 +67,15 @@ export async function sendEvent (sender, events) {
         contents: [
           {
             type: "button",
+            // style: "primary",
+            action: {
+              type: "uri",
+              label: "Show Detail",
+              uri: "https://liff.line.me/1657618262-bmwyAAVo?param=" + events[index].event_id
+            }
+          },
+          {
+            type: "button",
             style: "primary",
             action: {
               type: "message",
