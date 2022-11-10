@@ -19,7 +19,7 @@ connection.query('SELECT * FROM events', async function(err, result) {
 })
 
 app.post('/api', async (req, res) => {
-  var requestText = req.body.events[0].message.text
+  // var requestText = req.body.events[0].message.text
   var sender = req.body.events[0].source.userId
   
   const responseUser = await fetch(`https://api.line.me/v2/bot/profile/${sender}`, {
@@ -28,13 +28,15 @@ app.post('/api', async (req, res) => {
   })
   var user = await responseUser.json()
 
-  console.log(req)
+  console.log(req.body.events[0])
 
-  if (requestText === 'List') {
-    await responseFunction.sendEvent(sender, event)
-  }
+  // if (requestText === 'List') {
+  //   await responseFunction.sendEvent(sender, event)
+  // }
   res.sendStatus(200)
 })
+
+app.post('/api/join')
 
 app.listen(app.get('port'), function () {
   console.log('run at port', app.get('port'))
