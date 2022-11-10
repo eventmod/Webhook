@@ -37,7 +37,7 @@ app.post('/api', async (req, res) => {
 
   } else if(requestEvent.type === 'postback') {
     const dataPostback = requestEvent.postback.data
-    const split = dataPostback.split("@")
+    const split = dataPostback.split("&")
     // const action = split[0].split("=")[1]
     // const eventId = split[1].split("=")[1]
 
