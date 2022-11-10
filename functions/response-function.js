@@ -80,7 +80,7 @@ export async function sendEvent (sender, events) {
               type: "postback",
               label: "Join Event",
               data: "action=join&eventid=" + events[index].event_id,
-              displayText: "Already Join " + events[index].event_title
+              // displayText: "Already Join " + events[index].event_title
             }
           }
         ]
