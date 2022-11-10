@@ -110,9 +110,14 @@ export async function sendEvent (sender, events) {
     })
 }
 
-export async function joinEvent (sender, user, eventID, eventTitle) {
-  console.log(sender)
-  console.log(user)
-  console.log(eventID)
-  console.log(eventTitle)
+export async function joinEvent (sender, user, eventID) {
+  var eventTitle = await fetchEventTitle(eventID);
+  console.log(eventTitle)  
+}
+
+async function fetchEventTitle(eventID) {
+  connection.query('SELECT event_title FROM events WHERE event_id = ' + eventID, async (err, result) => {
+    if(err) {console.log(err)}
+    else {return result[0].event_title}
+  })
 }

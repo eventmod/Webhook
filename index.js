@@ -40,11 +40,10 @@ app.post('/api', async (req, res) => {
     const action = dataPostback.split("&")[0].split("=")[1]
     const eventId = dataPostback.split("&")[1].split("=")[1]
 
-    var eventTitle = "";
-    this.eventTitle = connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId)
+    
 
     if(action === 'join') {
-      await responseFunction.joinEvent(sender, user, eventId, eventTitle)
+      await responseFunction.joinEvent(sender, user, eventId)
       // let lineaccID = 0;
       // connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = "' + sender + '"', async function(err, result) {
       //   if(err) {console.log(err)}
