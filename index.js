@@ -49,7 +49,7 @@ app.post('/api', async (req, res) => {
     if( action === 'join' ) {
 
       let lineaccID = 0;
-      connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = ' + sender, async function(err, result) {
+      connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = "' + sender + '"', async function(err, result) {
         if(err) {console.log(err)}
         else {lineaccID = result[0].lineacc_id}
       })
