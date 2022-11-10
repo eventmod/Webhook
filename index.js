@@ -17,6 +17,7 @@ connection.query('SELECT * FROM events', async function(err, result) {
   if(err) {console.log(err)}
   else {event = result}
 })
+console.log(event)
 
 app.post('/api', async (req, res) => {
   var requestEvent = req.body.events[0]
@@ -45,7 +46,7 @@ app.post('/api', async (req, res) => {
       if(err) {console.log(err)}
       else {eventTitle = result[0]}
     })
-    console.log(eventTitle)
+    // console.log(eventTitle)
     
     // if(action === 'join') {
 
