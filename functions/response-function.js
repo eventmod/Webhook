@@ -67,7 +67,6 @@ export async function sendEvent (sender, events) {
         contents: [
           {
             type: "button",
-            // style: "primary",
             action: {
               type: "uri",
               label: "Show Detail",
@@ -78,9 +77,10 @@ export async function sendEvent (sender, events) {
             type: "button",
             style: "primary",
             action: {
-              type: "message",
+              type: "postback",
               label: "Join Event",
-              text: "Already Join " + events[index].event_title
+              data: "action=join&eventid=" + events[index].event_id,
+              displayText: "Already Join " + events[index].event_title
             }
           }
         ]

@@ -28,6 +28,8 @@ app.post('/api', async (req, res) => {
   })
   var user = await responseUser.json()
 
+  console.log(req)
+
   if (requestText === 'List') {
     await responseFunction.sendEvent(sender, event)
   }
