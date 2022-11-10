@@ -43,7 +43,7 @@ app.post('/api', async (req, res) => {
     let eventTitle = ""
     connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result) => {
       if(err) {console.log(err)}
-      else {eventTitle = result[0].event_title}
+      else {console.log("eventTitleResult: " + result[0]);eventTitle = result[0].event_title}
     })
     console.log("eventTitle: " + eventTitle)
     
@@ -58,7 +58,10 @@ app.post('/api', async (req, res) => {
       let hasJoin = false;
       connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
         if(err) {console.log(err)}
-        else {hasJoin = result[0] === undefined ? true : false}
+        else {
+          console.log("hasJoinResult: " + result[0])
+          hasJoin = result[0] === undefined ? true : false
+        }
       })
       console.log("hasJoin: " + hasJoin)
       if(hasJoin) {
@@ -78,7 +81,7 @@ app.post('/api', async (req, res) => {
           window.location.replace(joinLink)
         }
       } else {
-        await responseFunction.sendText(sender, user.displayName + " have already join" + eventTitle + ".")
+        await responseFunction.sendText(sender, user.displayName + " has already join " + eventTitle + ".")
       }
     }
   }
