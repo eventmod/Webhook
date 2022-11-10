@@ -45,6 +45,7 @@ app.post('/api', async (req, res) => {
       if(err) {console.log(err)}
       else {eventTitle = result[0].event_title}
     })
+    console.log("eventTitle: " + eventTitle)
     
     if(action === 'join') {
 
@@ -53,12 +54,13 @@ app.post('/api', async (req, res) => {
         if(err) {console.log(err)}
         else {lineaccID = result[0].lineacc_id}
       })
+      console.log("lineaccID: " + lineaccID)
       let hasJoin = false;
       connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
         if(err) {console.log(err)}
-        else {hasJoin = result[0] === undefined ? true : false;}
+        else {hasJoin = result[0] === undefined ? true : false}
       })
-
+      console.log("hasJoin: " + hasJoin)
       if(hasJoin) {
         let hasJoinLink = false;
         let joinLink = undefined;
@@ -66,6 +68,7 @@ app.post('/api', async (req, res) => {
           if(err) {console.log(err)}
           else {joinLink = result[0], hasJoinLink = joinLink === undefined ? true : false;}
         })
+        console.log("hasJoinLink: " + hasJoinLink)
         if(hasJoinLink) {
           connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
             if(err) {console.log(err)}
@@ -75,7 +78,7 @@ app.post('/api', async (req, res) => {
           window.location.replace(joinLink)
         }
       } else {
-        await responseFunction.sendText(sender, user.displayName + " have already join " + eventTitle + ".")
+        await responseFunction.sendText(sender, user.displayName + " have already join" + eventTitle + ".")
       }
     }
   }
