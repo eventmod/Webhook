@@ -40,7 +40,7 @@ app.post('/api', async (req, res) => {
     const action = dataPostback.split("&")[0].split("=")[1]
     const eventId = dataPostback.split("&")[1].split("=")[1]
 
-    const eventTitle = ""
+    let eventTitle = ""
     connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result) => {
       if(err) {console.log(err)}
       else {eventTitle = result[0].event_title}
@@ -48,20 +48,20 @@ app.post('/api', async (req, res) => {
     
     if( action === 'join' ) {
 
-      const lineaccID = 0;
+      let lineaccID = 0;
       connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = ' + sender, async function(err, result) {
         if(err) {console.log(err)}
         else {lineaccID = result[0].lineacc_id}
       })
-      const hasJoin = false;
+      let hasJoin = false;
       connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
         if(err) {console.log(err)}
         else {hasJoin = result[0].eventjoined_id === null ? false : true;}
       })
 
       if(hasJoin) {
-        const hasJoinLink = false;
-        const joinLink = null;
+        let hasJoinLink = false;
+        let joinLink = null;
         connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async (err, result) => {
           if(err) {console.log(err)}
           else {joinLink = result[0].event_joinlink, hasJoinLink = joinLink === null ? false : true;}
