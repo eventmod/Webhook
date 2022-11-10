@@ -57,29 +57,28 @@ app.post('/api', async (req, res) => {
       connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
         if(err) {console.log(err)}
         else {
-          hasJoin = result[0] === undefined ? false : true;
-          console.log(hasJoin)
+          hasJoin = result[0] === undefined ? true : false;
         }
       })
 
-      // if(hasJoin) {
-      //   let hasJoinLink = false;
-      //   let joinLink = null;
-      //   connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async (err, result) => {
-      //     if(err) {console.log(err)}
-      //     else {joinLink = result[0].event_joinlink, hasJoinLink = joinLink === null ? false : true;}
-      //   })
-      //   if(hasJoinLink) {
-      //     connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
-      //       if(err) {console.log(err)}
-      //       else {console.log(result)}
-      //     })
-      //   } else {
-      //     window.location.replace(joinLink)
-      //   }
-      // } else {
-      //   await responseFunction.sendText(sender, user.displayName + " have already join " + eventTitle + ".")
-      // }
+      if(hasJoin) {
+        let hasJoinLink = false;
+        let joinLink = undefined;
+        connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async (err, result) => {
+          if(err) {console.log(err)}
+          else {joinLink = result[0], hasJoinLink = joinLink === undefined ? true : false;}
+        })
+        if(hasJoinLink) {
+          connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
+            if(err) {console.log(err)}
+            else {console.log(result)}
+          })
+        } else {
+          window.location.replace(joinLink)
+        }
+      } else {
+        await responseFunction.sendText(sender, user.displayName + " have already join " + eventTitle + ".")
+      }
     }
   }
 
