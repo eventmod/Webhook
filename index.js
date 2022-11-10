@@ -45,7 +45,7 @@ app.post('/api', async (req, res) => {
       if(err) {console.log(err)}
       else {eventTitle = result}
     })
-    console.log(eventTitle[0].event_title)
+    console.log(eventTitle[0])
     
     // if(action === 'join') {
 
