@@ -40,7 +40,11 @@ app.post('/api', async (req, res) => {
     const action = dataPostback.split("&")[0].split("=")[1]
     const eventId = dataPostback.split("&")[1].split("=")[1]
 
-    
+    var eventTitle = "";
+    connection.query('SELECT event_title FROM events WHERE event_id = ' + eventID, async (err, result) => {
+      if(err) {console.log(err)}
+      else {eventTitle = result[0].event_title}
+    })
 
     if(action === 'join') {
       await responseFunction.joinEvent(sender, user, eventId)

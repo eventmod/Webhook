@@ -1,6 +1,4 @@
 import request from 'request';
-import { connection } from '../connection/connection-mysql.js';
-
 
 export const LINE_MESSAGING_API = "https://api.line.me/v2/bot/message";
 export const LINE_HEADER = {
@@ -110,16 +108,4 @@ export async function sendEvent (sender, events) {
       if (err) console.log(err)
       if (res) console.log(res)
     })
-}
-
-export async function joinEvent (sender, user, eventID) {
-  var eventTitle = await fetchEventTitle(eventID);
-  console.log(eventTitle)  
-}
-
-async function fetchEventTitle(eventID) {
-  connection.query('SELECT event_title FROM events WHERE event_id = ' + eventID, async (err, result) => {
-    if(err) {console.log(err)}
-    else {return result[0].event_title}
-  })
 }
