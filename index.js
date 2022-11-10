@@ -37,15 +37,11 @@ app.post('/api', async (req, res) => {
 
   } else if(requestEvent.type === 'postback') {
     const dataPostback = requestEvent.postback.data
-    const split = dataPostback.split("&")
-    // const action = split[0].split("=")[1]
-    // const eventId = split[1].split("=")[1]
+    const action = dataPostback.split("&")[0].split("=")[1]
+    const eventId = dataPostback.split("&")[1].split("=")[1]
 
-    console.log(split)
-    console.log(split[0])
-    console.log(split[1])
-    // console.log(action)
-    // console.log(eventId)
+    console.log(action)
+    console.log(eventId)
 
     // const eventTitle = ""
     // connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result) => {
