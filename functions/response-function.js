@@ -106,8 +106,8 @@ export async function sendEvent (sender, events) {
         ]
       })
     }, function (err, res, body) {
-      if (err) console.log('error')
+      if (err) console.log(err)
       if (res) console.log(res)
-      if (body) console.log('3: '+ body)
+      if (body) console.log(body)
     })
 }
