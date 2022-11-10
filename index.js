@@ -53,33 +53,33 @@ app.post('/api', async (req, res) => {
         if(err) {console.log(err)}
         else {lineaccID = result[0].lineacc_id}
       })
-      let hasJoin = false;
+      // let hasJoin = false;
       connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
         if(err) {console.log(err)}
         else {
-          const x = result[0].eventjoined_id
-          hasJoin = x.orElse(null) === null ? false : true;
+          console.log(result[0])
+          // hasJoin = x.orElse(null) === null ? false : true;
         }
       })
 
-      if(hasJoin) {
-        let hasJoinLink = false;
-        let joinLink = null;
-        connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async (err, result) => {
-          if(err) {console.log(err)}
-          else {joinLink = result[0].event_joinlink, hasJoinLink = joinLink === null ? false : true;}
-        })
-        if(hasJoinLink) {
-          connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
-            if(err) {console.log(err)}
-            else {console.log(result)}
-          })
-        } else {
-          window.location.replace(joinLink)
-        }
-      } else {
-        await responseFunction.sendText(sender, user.displayName + " have already join " + eventTitle + ".")
-      }
+      // if(hasJoin) {
+      //   let hasJoinLink = false;
+      //   let joinLink = null;
+      //   connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async (err, result) => {
+      //     if(err) {console.log(err)}
+      //     else {joinLink = result[0].event_joinlink, hasJoinLink = joinLink === null ? false : true;}
+      //   })
+      //   if(hasJoinLink) {
+      //     connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
+      //       if(err) {console.log(err)}
+      //       else {console.log(result)}
+      //     })
+      //   } else {
+      //     window.location.replace(joinLink)
+      //   }
+      // } else {
+      //   await responseFunction.sendText(sender, user.displayName + " have already join " + eventTitle + ".")
+      // }
     }
   }
 
