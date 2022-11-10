@@ -56,7 +56,10 @@ app.post('/api', async (req, res) => {
       let hasJoin = false;
       connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
         if(err) {console.log(err)}
-        else {hasJoin = result[0].eventjoined_id === null ? false : true;}
+        else {
+          const x = result[0].eventjoined_id
+          hasJoin = x.orElse(null) === null ? false : true;
+        }
       })
 
       if(hasJoin) {
