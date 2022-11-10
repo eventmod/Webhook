@@ -109,3 +109,10 @@ export async function sendEvent (sender, events) {
       if (res) console.log(res)
     })
 }
+
+export async function joinEvent (sender, user, eventID, eventTitle) {
+  console.log(sender)
+  console.log(user)
+  console.log(eventID)
+  console.log(eventTitle)
+}
