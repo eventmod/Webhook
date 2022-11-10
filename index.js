@@ -46,7 +46,7 @@ app.post('/api', async (req, res) => {
       else {eventTitle = result[0].event_title}
     })
     
-    if( action === 'join' ) {
+    if(action === 'join') {
 
       let lineaccID = 0;
       connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = "' + sender + '"', async function(err, result) {
@@ -56,9 +56,7 @@ app.post('/api', async (req, res) => {
       let hasJoin = false;
       connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
         if(err) {console.log(err)}
-        else {
-          hasJoin = result[0] === undefined ? true : false;
-        }
+        else {hasJoin = result[0] === undefined ? true : false;}
       })
 
       if(hasJoin) {
@@ -71,7 +69,7 @@ app.post('/api', async (req, res) => {
         if(hasJoinLink) {
           connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
             if(err) {console.log(err)}
-            else {console.log(result)}
+            else {console.log("Inset: " + result)}
           })
         } else {
           window.location.replace(joinLink)
