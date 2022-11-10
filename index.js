@@ -40,41 +40,44 @@ app.post('/api', async (req, res) => {
     const action = dataPostback.split("@")[0].split("=")[1]
     const eventId = dataPostback.split("@")[1].split("=")[1]
 
-    const eventTitle = ""
-    connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result) => {
-      if(err) {console.log(err)}
-      else {eventTitle = result}
-    })
+    console.log(action)
+    console.log(eventId)
+
+    // const eventTitle = ""
+    // connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result) => {
+    //   if(err) {console.log(err)}
+    //   else {eventTitle = result}
+    // })
     
-    if( action === 'join' ) {
+    // if( action === 'join' ) {
 
-      const lineaccID = 0;
-      connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = ' + sender, async function(err, result) {
-        if(err) {console.log(err)}
-        else {lineaccID = result}
-      })
-      const hasJoin = false;
-      connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
-        if(err) {console.log(err)}
-        else {hasJoin = result === null ? false : true;}
-      })
+    //   const lineaccID = 0;
+    //   connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = ' + sender, async function(err, result) {
+    //     if(err) {console.log(err)}
+    //     else {lineaccID = result}
+    //   })
+    //   const hasJoin = false;
+    //   connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
+    //     if(err) {console.log(err)}
+    //     else {hasJoin = result === null ? false : true;}
+    //   })
 
-      if(hasJoin) {
-        const hasJoinLink = false;
-        const joinLink = null;
-        connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async (err, result) => {
-          if(err) {console.log(err)}
-          else {joinLink = result, hasJoinLink = joinLink === null ? false : true;}
-        })
-        if(hasJoinLink) {
-          connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')')
-        } else {
-          window.location.replace(joinLink)
-        }
-      } else {
-        await responseFunction.sendText(send, user.displayName + " have already join " + eventTitle + ".")
-      }
-    }
+    //   if(hasJoin) {
+    //     const hasJoinLink = false;
+    //     const joinLink = null;
+    //     connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async (err, result) => {
+    //       if(err) {console.log(err)}
+    //       else {joinLink = result, hasJoinLink = joinLink === null ? false : true;}
+    //     })
+    //     if(hasJoinLink) {
+    //       connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')')
+    //     } else {
+    //       window.location.replace(joinLink)
+    //     }
+    //   } else {
+    //     await responseFunction.sendText(send, user.displayName + " have already join " + eventTitle + ".")
+    //   }
+    // }
   }
 
   res.sendStatus(200)
