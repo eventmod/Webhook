@@ -1,5 +1,5 @@
 import request from 'request';
-import { connection } from './connection/connection-mysql.js';
+import { connection } from '../connection/connection-mysql.js';
 
 
 export const LINE_MESSAGING_API = "https://api.line.me/v2/bot/message";
