@@ -36,7 +36,7 @@ app.post('/api', async (req, res) => {
   res.sendStatus(200)
 })
 
-app.post('/api/join')
+// app.post('/api/join')
 
 app.listen(app.get('port'), function () {
   console.log('run at port', app.get('port'))
