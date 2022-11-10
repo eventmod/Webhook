@@ -67,12 +67,15 @@ app.post('/api', async (req, res) => {
           else {joinLink = result, hasJoinLink = joinLink === null ? false : true;}
         })
         if(hasJoinLink) {
-          connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')')
+          connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
+            if(err) {console.log(err)}
+            else {console.log(result)}
+          })
         } else {
           window.location.replace(joinLink)
         }
       } else {
-        await responseFunction.sendText(send, user.displayName + " have already join " + eventTitle + ".")
+        await responseFunction.sendText(sender, user.displayName + " have already join " + eventTitle + ".")
       }
     }
   }
