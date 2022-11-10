@@ -48,7 +48,7 @@ app.post('/api', async (req, res) => {
         eventTitle = result[0].event_title
       }
     })
-    console.log("eventTitle: " + eventTitle)
+    console.log(eventTitle)
     
     // if(action === 'join') {
 
