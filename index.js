@@ -19,20 +19,30 @@ connection.query('SELECT * FROM events', async function(err, result) {
 })
 
 app.post('/api', async (req, res) => {
-  // var requestText = req.body.events[0].message.text
-  var sender = req.body.events[0].source.userId
+  var requestEvent = req.body.events[0]
+  var sender = requestEvent.source.userId
   
-  const responseUser = await fetch(`https://api.line.me/v2/bot/profile/${sender}`, {
-    method: "GET", 
-    headers: responseFunction.LINE_HEADER
-  })
-  var user = await responseUser.json()
+  // const responseUser = await fetch(`https://api.line.me/v2/bot/profile/${sender}`, {
+  //   method: "GET", 
+  //   headers: responseFunction.LINE_HEADER
+  // })
+  // var user = await responseUser.json()
 
-  console.log(req.body.events[0])
+  if(requestEvent.type === 'message') {
+    const requestText = requestEvent.message.text
 
-  // if (requestText === 'List') {
-  //   await responseFunction.sendEvent(sender, event)
-  // }
+    if (requestText === 'List') {
+      await responseFunction.sendEvent(sender, event)
+    }
+
+  } else if(requestEvent.type === 'postback') {
+    const dataPostback = requestEvent.postback.data
+    console.log(dataPostback)
+  }
+
+
+
+
   res.sendStatus(200)
 })
 
