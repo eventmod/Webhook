@@ -42,9 +42,10 @@ app.post('/api', async (req, res) => {
     const eventId = dataPostback.split("&")[1].split("=")[1]
 
     var eventTitle = "";
-    connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result) => {
+    connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result, fields) => {
       if(err) {console.log(err)}
-      else {eventTitle = result[0]}
+      // else {eventTitle = result}
+      console.log(fields)
     })
     // console.log(eventTitle)
     
