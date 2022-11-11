@@ -46,19 +46,18 @@ app.post('/api', async (req, res) => {
       if(action === 'join') {
         connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = "' + sender + '"', async function(err, result) {
           if(err) {console.log(err)}
-          var lineaccID = result[0].lineacc_id
-          if(lineaccID !== undefined) {
+          var lineaccID = result[0]
+          if(lineaccID.lineacc_id !== undefined) {
             connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async function(err, result) {
               if(err) {console.log(err)}
               var joinLink = result[0].event_joinlink
               var hasJoinLink = joinLink === null ? true : false
-              console.log(joinLink)
               if(hasJoinLink) {
-                connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async (err, result) => {
+                connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID.lineacc_id, async (err, result) => {
                   if(err) {console.log(err)}
                   var hasJoin = result[0] === undefined ? true : false
                   if(hasJoin) {
-                    connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
+                    connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID.lineacc_id + ')', async(err, result) => {
                       if(err) {console.log(err)}
                       else {
                         await responseFunction.sendText(sender, "Join " + eventTitle + " successfully.")
@@ -68,7 +67,6 @@ app.post('/api', async (req, res) => {
                     await responseFunction.sendText(sender, user.displayName + " has already join " + eventTitle + ".")
                   }
                 })
-                
               } else {
                 await responseFunction.sendText(sender, "Join with this link:\n" + joinLink)
               }
