@@ -46,7 +46,7 @@ app.post('/api', async (req, res) => {
       else {
         for (let i = 0; i < result.length; i++) {
           const element = result[i];
-          eventTitle.push(element)
+          eventTitle.push(await element)
         }
       }
     })
