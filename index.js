@@ -43,12 +43,7 @@ app.post('/api', async (req, res) => {
     let eventTitle = [];
     connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result) => {
       if(err) {console.log(err)}
-      else {
-        for (let i = 0; i < result.length; i++) {
-          const element = result[i];
-          eventTitle.push(await element)
-        }
-      }
+      eventTitle = result[0].event_title
     })
 
     if(action === 'join') {
