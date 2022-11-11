@@ -70,8 +70,7 @@ app.post('/api', async (req, res) => {
                 })
                 
               } else {
-                console.log("Go to link")
-                res.links(joinLink)
+                res.links("'" + joinLink + "'")
               }
             })
           } else {
