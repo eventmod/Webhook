@@ -70,7 +70,8 @@ app.post('/api', async (req, res) => {
                 })
                 
               } else {
-                res.links("'" + joinLink + "'")
+                res.setHeader()
+                res.redirect("'" + joinLink + "'")
               }
             })
           } else {
