@@ -70,10 +70,7 @@ app.post('/api', async (req, res) => {
                 })
                 
               } else {
-                res.statusCode = 301;
-                res.setHeader('localtion', joinLink)
-                res.writeHead(301,{location: joinLink})
-                res.redirect("'" + joinLink + "'")
+                await responseFunction.sendText(sender, "Join with this link:\n" + joinLink)
               }
             })
           } else {
