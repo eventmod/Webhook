@@ -72,7 +72,7 @@ app.post('/api', async (req, res) => {
               }
             })
           } else {
-            res.redirect("https://liff.line.me/1657624777-ZRExJL7b")
+            await responseFunction.sendText(sender, "Verify KMUTT Student:\nhttps://liff.line.me/1657624777-ZRExJL7b")
           }
         })
       }
