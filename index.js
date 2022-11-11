@@ -47,7 +47,7 @@ app.post('/api', async (req, res) => {
         connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = "' + sender + '"', async function(err, result) {
           if(err) {console.log(err)}
           var lineaccID = result[0]
-          if(lineaccID.lineacc_id !== undefined) {
+          if(lineaccID !== undefined) {
             connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async function(err, result) {
               if(err) {console.log(err)}
               var joinLink = result[0].event_joinlink
