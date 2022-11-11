@@ -40,10 +40,15 @@ app.post('/api', async (req, res) => {
     const action = dataPostback.split("&")[0].split("=")[1]
     const eventId = dataPostback.split("&")[1].split("=")[1]
 
-    var eventTitle = "";
+    let eventTitle = [];
     connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result) => {
       if(err) {console.log(err)}
-      else {setTimeout(eventTitle = result[0].event_title , 3000)}
+      else {
+        for (let i = 0; i < result.length; i++) {
+          const element = result[i];
+          eventTitle.push(element)
+        }
+      }
     })
 
     if(action === 'join') {
