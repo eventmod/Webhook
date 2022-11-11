@@ -40,46 +40,43 @@ app.post('/api', async (req, res) => {
     const action = dataPostback.split("&")[0].split("=")[1]
     const eventId = dataPostback.split("&")[1].split("=")[1]
 
-    let eventTitle = [];
     connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result) => {
       if(err) {console.log(err)}
-      eventTitle = result[0].event_title
-    })
+      var eventTitle = result[0].event_title
+      
+      if(action === 'join') {
+        console.log(eventTitle)
+        connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = "' + sender + '"', async function(err, result) {
+          if(err) {console.log(err)}
+          var lineaccID = result[0].lineacc_id
+          connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
+            if(err) {console.log(err)}
+            var hasJoin = result[0] === undefined ? true : false
+            if(hasJoin) {
 
-    if(action === 'join') {
-      console.log(eventTitle)
-      // let lineaccID = 0;
-      // connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = "' + sender + '"', async function(err, result) {
-      //   if(err) {console.log(err)}
-      //   else {lineaccID = result[0].lineacc_id}
-      // })
-      // let hasJoin = false;
-      // connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async function(err, result) {
-      //   if(err) {console.log(err)}
-      //   else {
-      //     console.log("hasJoinResult: " + result[0])
-      //     hasJoin = result[0] === undefined ? true : false
-      //   }
-      // })
-      // if(hasJoin) {
-      //   let hasJoinLink = false;
-      //   let joinLink = undefined;
-      //   connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async (err, result) => {
-      //     if(err) {console.log(err)}
-      //     else {joinLink = result[0], hasJoinLink = joinLink === undefined ? true : false;}
-      //   })
-      //   if(hasJoinLink) {
-      //     connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
-      //       if(err) {console.log(err)}
-      //       else {console.log("Inset: " + result)}
-      //     })
-      //   } else {
-      //     window.location.replace(joinLink)
-      //   }
-      // } else {
-      //   await responseFunction.sendText(sender, user.displayName + " has already join " + eventTitle + ".")
-      // }
-    }
+              connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async (err, result) => {
+                if(err) {console.log(err)}
+                var joinLink = result[0]
+                var hasJoinLink = joinLink === undefined ? true : false
+                if(hasJoinLink) {
+                  connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
+                    if(err) {console.log(err)}
+                    else {console.log("Inset: " + result)}
+                  })
+                } else {
+                  window.location.replace(joinLink)
+                }
+              })
+              
+            } else {
+              await responseFunction.sendText(sender, user.displayName + " has already join " + eventTitle + ".")
+            }
+          })
+          
+        })
+        
+      }
+    })
   }
 
   res.sendStatus(200)
