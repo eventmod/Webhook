@@ -71,6 +71,7 @@ app.post('/api', async (req, res) => {
                 
               } else {
                 res.redirect(joinLink)
+                console.log("Go to link")
               }
             })
           } else {
