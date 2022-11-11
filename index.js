@@ -43,33 +43,27 @@ app.post('/api', async (req, res) => {
     connection.query('SELECT event_title FROM events WHERE event_id = ' + eventId, async (err, result) => {
       if(err) {console.log(err)}
       var eventTitle = result[0].event_title
-      console.log(eventTitle)
       if(action === 'join') {
         connection.query('SELECT lineacc_id FROM lineaccounts WHERE lineacc_userid = "' + sender + '"', async function(err, result) {
           if(err) {console.log(err)}
           var lineaccID = result[0].lineacc_id
-          console.log(lineaccID)
           connection.query('SELECT event_joinlink FROM events WHERE event_id = ' + eventId, async function(err, result) {
             if(err) {console.log(err)}
             var joinLink = result[0].event_joinlink
             var hasJoinLink = joinLink === null ? true : false
             console.log(joinLink)
-            console.log(hasJoinLink)
             if(hasJoinLink) {
               connection.query('SELECT eventjoined_id FROM eventsjoined WHERE event_id = ' + eventId + ' && lineacc_id = ' + lineaccID, async (err, result) => {
                 if(err) {console.log(err)}
-                console.log(result[0])
                 var hasJoin = result[0] === undefined ? true : false
-                console.log(hasJoin)
-                if(hasJoinLink) {
-                  // connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
-                  //   if(err) {console.log(err)}
-                  //   else {
-                  //     await responseFunction.sendText(sender, "Join " + eventTitle + " successfully.")
-                  //   }
-                  // })
+                if(hasJoin) {
+                  connection.query('INSERT INTO eventsjoined(event_id, lineacc_id) VALUES (' + eventId + ', ' + lineaccID + ')', async(err, result) => {
+                    if(err) {console.log(err)}
+                    else {
+                      await responseFunction.sendText(sender, "Join " + eventTitle + " successfully.")
+                    }
+                  })
                 } else {
-                  // window.location.replace(joinLink)
                   open(joinLink)
                 }
               })

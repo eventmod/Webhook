@@ -22,9 +22,9 @@ export async function sendText (sender, text) {
     method: 'POST',
     body: data,
     json: true
-  }, function (err, res, body) {
+  }, function (err, res) {
     if (err) console.log(err)
-    if (res) console.log(res)
+    if (res) console.log("Success")
   })
 }
 
@@ -106,6 +106,6 @@ export async function sendEvent (sender, events) {
       })
     }, function (err, res) {
       if (err) console.log(err)
-      if (res) console.log(res)
+      if (res) console.log("Success")
     })
 }
