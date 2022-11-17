@@ -6,7 +6,7 @@ services:
     container_name: "line-webhook"
     ports:
       - "5000:5000"
-    restart: on-failure
+    restart: always
 networks:
   default:
     external:
